@@ -2,7 +2,6 @@ package menjacnica.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,14 +22,10 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
 import java.awt.Dimension;
-import javax.swing.JTextPane;
 import java.awt.TextArea;
-import java.awt.Panel;
-import java.awt.ScrollPane;
 import javax.swing.JTable;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
@@ -41,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+@SuppressWarnings("serial")
 public class MenjacnicaGUI extends JFrame {
 
 	private JPanel contentPane;
@@ -56,7 +52,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton btnIzbrisiKurs;
 	private JButton btnIzvrsiZamenu;
 	private JPanel southPanel;
-	private TextArea textAreaStatus;
+	private static TextArea textAreaStatus;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JPopupMenu popupMenu;
@@ -192,6 +188,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getBtnDodajKurs() {
 		if (btnDodajKurs == null) {
 			btnDodajKurs = new JButton("Dodaj kurs");
+			btnDodajKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.otvoriProzorDodajKurs();
+				}
+			});
 			btnDodajKurs.setPreferredSize(new Dimension(113, 23));
 		}
 		return btnDodajKurs;
@@ -274,6 +275,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmDodajKurs() {
 		if (mntmDodajKurs == null) {
 			mntmDodajKurs = new JMenuItem("Dodaj kurs");
+			mntmDodajKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.otvoriProzorDodajKurs();
+				}
+			});
 		}
 		return mntmDodajKurs;
 	}
@@ -288,5 +294,20 @@ public class MenjacnicaGUI extends JFrame {
 			mntmIzvrsiZamenu = new JMenuItem("Izvr\u0161i zamenu");
 		}
 		return mntmIzvrsiZamenu;
+	}
+	
+	public static void ispisiNovuKnjigu(String sifra, String naziv, String prodajni, String kupovni, String srednji, String skraceniNaziv){
+		String poruka = "Sifra: " + sifra + "; Naziv: " + naziv + "; Prodajni kurs: " + prodajni + "; Kupovni kurs: " + kupovni + "; Srednji kurs: " + srednji + "; Skaceni naziv: " + skraceniNaziv;
+		String postojeciText = textAreaStatus.getText();
+
+		if(!postojeciText.isEmpty()) postojeciText = postojeciText + "\n";
+
+		textAreaStatus.setText(postojeciText + poruka);
+
+	}
+	
+	public void osveziTabelu(){
+		MenjacnicaTableModel model = (MenjacnicaTableModel) table.getModel();
+		model.ucitajValute(GUIKontroler.vratiSveValute());
 	}
 }

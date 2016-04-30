@@ -1,13 +1,17 @@
 package menjacnica.gui;
 
 import java.awt.EventQueue;
+import java.util.LinkedList;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import menjacnica.Menjacnica;
+import menjacnica.Valuta;
 
 public class GUIKontroler {
 	
-	public static MenjacnicaGUI glavniProzor;
+	private static MenjacnicaGUI glavniProzor;
+	private static Menjacnica menjacnica = new Menjacnica();
 	
 	/**
 	 * Launch the application.
@@ -37,6 +41,28 @@ public class GUIKontroler {
 	
 	public static void prikaziAboutDialog(){
 		JOptionPane.showMessageDialog(glavniProzor, "Autor: Ilija Pavlovic\nVerzija: 1.0", "About", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public static void unesiNovuValutu(String sifra, String naziv, String prodajni, String kupovni, String srednji, String skraceniNaziv) {
+		Valuta v = new Valuta();
+		v.setSifra(sifra);
+		v.setNaziv(naziv);
+		v.setProdajni(Double.parseDouble(prodajni));
+		v.setKupovni(Double.parseDouble(kupovni));
+		v.setSrednji(Double.parseDouble(srednji));
+		v.setSkraceniNaziv(skraceniNaziv);
+		menjacnica.dodajValutu(v);
+		glavniProzor.osveziTabelu();
+	}
+	
+	public static LinkedList<Valuta> vratiSveValute(){
+		return menjacnica.getValute();
+	}
+
+	public static void otvoriProzorDodajKurs() {
+		DodajKursGUI noviProzorDK = new DodajKursGUI();
+		noviProzorDK.setVisible(true);
+		noviProzorDK.setLocationRelativeTo(null);
 	}
 
 }

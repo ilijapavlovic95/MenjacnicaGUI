@@ -56,5 +56,10 @@ public class MenjacnicaTableModel extends AbstractTableModel{
 	public String getColumnName(int column) {
 		return kolone[column];
 	}
+	
+	public void ucitajValute(List<Valuta> valute) {
+		this.valute = valute;
+		fireTableDataChanged();
+	}
 
 }

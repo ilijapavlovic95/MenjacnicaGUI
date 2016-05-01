@@ -16,6 +16,12 @@ public class Menjacnica {
 	public void dodajValutu(Valuta v) {
 		valute.add(v);
 	}
+
+	public void izbrisiValutu(Valuta v) {
+		if(!valute.contains(v) || valute == null)
+			throw new RuntimeException("Greska pri brisanju.");
+		valute.remove(v);
+	}
 	
 	
 }

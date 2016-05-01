@@ -65,4 +65,17 @@ public class GUIKontroler {
 		noviProzorDK.setLocationRelativeTo(null);
 	}
 
+	public static void ispisiPorukuOGresciIzboraRedaZaBrisanje() {
+		JOptionPane.showMessageDialog(glavniProzor, "Morate odabrati red za brisanje.","Greska",JOptionPane.ERROR_MESSAGE);
+	}
+
+	public static void izbrisiValutu(Valuta v) {
+		menjacnica.izbrisiValutu(v);
+		glavniProzor.osveziTabelu();
+	}
+
+	public static void prikaziDijalogPogresnoBrisanje() {
+		JOptionPane.showMessageDialog(glavniProzor, "Doslo je do greske prilikom brisanja.","Greska",JOptionPane.ERROR_MESSAGE);
+	}
+
 }

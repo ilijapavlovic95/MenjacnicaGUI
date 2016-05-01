@@ -10,12 +10,14 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import menjacnica.Valuta;
 import menjacnica.gui.models.MenjacnicaTableModel;
 
 import java.awt.Toolkit;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
@@ -57,7 +59,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JTable table;
 	private JPopupMenu popupMenu;
 	private JMenuItem mntmDodajKurs;
-	private JMenuItem mntmObrisiKurs;
+	private JMenuItem mntmIzbrisiKurs;
 	private JMenuItem mntmIzvrsiZamenu;
 
 
@@ -197,9 +199,43 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return btnDodajKurs;
 	}
+	
+	private void obrisiKurs(){
+		try {
+			int index = table.getSelectedRow();
+			if(index == -1){
+				GUIKontroler.ispisiPorukuOGresciIzboraRedaZaBrisanje();
+			}else{
+				int opcija = JOptionPane.showConfirmDialog(null,
+						"Da li ste sigurni da zelite da izbrisete izabranu valutu?", "Poruka",
+						JOptionPane.YES_NO_OPTION);
+				
+				if(opcija == JOptionPane.YES_OPTION){
+					MenjacnicaTableModel model = (MenjacnicaTableModel) table.getModel();
+					Valuta v = model.getValutaByIndex(index);
+					GUIKontroler.izbrisiValutu(v);
+				}
+				
+				String poruka = "Izbrisan je red sa indeksom " + index;
+				String postojeciText = textAreaStatus.getText();
+
+				if(!postojeciText.isEmpty()) postojeciText = postojeciText + "\n";
+
+				textAreaStatus.setText(postojeciText + poruka);
+			}
+		} catch (Exception e) {
+			GUIKontroler.prikaziDijalogPogresnoBrisanje();
+		}
+	}
+	
 	private JButton getBtnIzbrisiKurs() {
 		if (btnIzbrisiKurs == null) {
 			btnIzbrisiKurs = new JButton("Izbri\u0161i kurs");
+			btnIzbrisiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+						obrisiKurs();
+				}
+			});
 			btnIzbrisiKurs.setPreferredSize(new Dimension(113, 23));
 		}
 		return btnIzbrisiKurs;
@@ -250,7 +286,7 @@ public class MenjacnicaGUI extends JFrame {
 		if (popupMenu == null) {
 			popupMenu = new JPopupMenu();
 			popupMenu.add(getMntmDodajKurs());
-			popupMenu.add(getMntmObrisiKurs());
+			popupMenu.add(getMntmIzbrisiKurs());
 			popupMenu.add(getMntmIzvrsiZamenu());
 		}
 		return popupMenu;
@@ -283,11 +319,16 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return mntmDodajKurs;
 	}
-	private JMenuItem getMntmObrisiKurs() {
-		if (mntmObrisiKurs == null) {
-			mntmObrisiKurs = new JMenuItem("Obri\u0161i kurs");
+	private JMenuItem getMntmIzbrisiKurs() {
+		if (mntmIzbrisiKurs == null) {
+			mntmIzbrisiKurs = new JMenuItem("Izbri\u0161i kurs");
+			mntmIzbrisiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					obrisiKurs();
+				}
+			});
 		}
-		return mntmObrisiKurs;
+		return mntmIzbrisiKurs;
 	}
 	private JMenuItem getMntmIzvrsiZamenu() {
 		if (mntmIzvrsiZamenu == null) {
@@ -297,7 +338,7 @@ public class MenjacnicaGUI extends JFrame {
 	}
 	
 	public static void ispisiNovuKnjigu(String sifra, String naziv, String prodajni, String kupovni, String srednji, String skraceniNaziv){
-		String poruka = "Sifra: " + sifra + "; Naziv: " + naziv + "; Prodajni kurs: " + prodajni + "; Kupovni kurs: " + kupovni + "; Srednji kurs: " + srednji + "; Skaceni naziv: " + skraceniNaziv;
+		String poruka = "Novi kurs - Sifra: " + sifra + "; Naziv: " + naziv + "; Prodajni kurs: " + prodajni + "; Kupovni kurs: " + kupovni + "; Srednji kurs: " + srednji + "; Skraceni naziv: " + skraceniNaziv;
 		String postojeciText = textAreaStatus.getText();
 
 		if(!postojeciText.isEmpty()) postojeciText = postojeciText + "\n";

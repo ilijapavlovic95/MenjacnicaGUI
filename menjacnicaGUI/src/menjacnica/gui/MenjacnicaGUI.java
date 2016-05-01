@@ -207,42 +207,49 @@ public class MenjacnicaGUI extends JFrame {
 				GUIKontroler.ispisiPorukuOGresciIzboraRedaZaBrisanje();
 			}else{
 				int opcija = JOptionPane.showConfirmDialog(null,
-						"Da li ste sigurni da zelite da izbrisete izabranu valutu?", "Poruka",
+						"Da li ste sigurni da zelite da izbrisete izabrani kurs?", "Poruka",
 						JOptionPane.YES_NO_OPTION);
-				
+
 				if(opcija == JOptionPane.YES_OPTION){
 					MenjacnicaTableModel model = (MenjacnicaTableModel) table.getModel();
 					Valuta v = model.getValutaByIndex(index);
 					GUIKontroler.izbrisiValutu(v);
 				}
-				
+
 				String poruka = "Izbrisan je red sa indeksom " + index;
 				String postojeciText = textAreaStatus.getText();
 
 				if(!postojeciText.isEmpty()) postojeciText = postojeciText + "\n";
 
 				textAreaStatus.setText(postojeciText + poruka);
+			
 			}
 		} catch (Exception e) {
 			GUIKontroler.prikaziDijalogPogresnoBrisanje();
 		}
 	}
-	
+
 	private JButton getBtnIzbrisiKurs() {
 		if (btnIzbrisiKurs == null) {
 			btnIzbrisiKurs = new JButton("Izbri\u0161i kurs");
 			btnIzbrisiKurs.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-						obrisiKurs();
+					obrisiKurs();
 				}
 			});
 			btnIzbrisiKurs.setPreferredSize(new Dimension(113, 23));
 		}
 		return btnIzbrisiKurs;
 	}
+
 	private JButton getBtnIzvrsiZamenu() {
 		if (btnIzvrsiZamenu == null) {
 			btnIzvrsiZamenu = new JButton("Izvr\u0161i zamenu");
+			btnIzvrsiZamenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.otvoriProzorIzvrsiZamenu();
+				}
+			});
 			btnIzvrsiZamenu.setPreferredSize(new Dimension(113, 23));
 		}
 		return btnIzvrsiZamenu;
@@ -333,6 +340,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmIzvrsiZamenu() {
 		if (mntmIzvrsiZamenu == null) {
 			mntmIzvrsiZamenu = new JMenuItem("Izvr\u0161i zamenu");
+			mntmIzvrsiZamenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.otvoriProzorIzvrsiZamenu();
+				}
+			});
 		}
 		return mntmIzvrsiZamenu;
 	}
@@ -350,5 +362,14 @@ public class MenjacnicaGUI extends JFrame {
 	public void osveziTabelu(){
 		MenjacnicaTableModel model = (MenjacnicaTableModel) table.getModel();
 		model.ucitajValute(GUIKontroler.vratiSveValute());
+	}
+
+	public static void ispisiZamenu(String valuta, String iznos, String transakcija) {
+		String poruka = "Izvrsena zamena - Valuta: " + valuta + "; Iznos: " + iznos + "; Vrsta transakcije: " + transakcija;
+		String postojeciText = textAreaStatus.getText();
+
+		if(!postojeciText.isEmpty()) postojeciText = postojeciText + "\n";
+
+		textAreaStatus.setText(postojeciText + poruka);
 	}
 }

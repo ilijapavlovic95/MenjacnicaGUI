@@ -78,4 +78,10 @@ public class GUIKontroler {
 		JOptionPane.showMessageDialog(glavniProzor, "Doslo je do greske prilikom brisanja.","Greska",JOptionPane.ERROR_MESSAGE);
 	}
 
+	public static void otvoriProzorIzvrsiZamenu() {
+		IzvrsiZamenuGUI noviProzor = new IzvrsiZamenuGUI();
+		noviProzor.setVisible(true);
+		noviProzor.setLocationRelativeTo(null);
+	}
+
 }

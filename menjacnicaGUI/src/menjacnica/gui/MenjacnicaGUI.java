@@ -257,7 +257,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JPanel getSouthPanel() {
 		if (southPanel == null) {
 			southPanel = new JPanel();
-			southPanel.setPreferredSize(new Dimension(10, 75));
+			southPanel.setPreferredSize(new Dimension(10, 100));
 			southPanel.setLayout(new BorderLayout(0, 0));
 			southPanel.add(getTextAreaStatus(), BorderLayout.CENTER);
 			Border blackline = BorderFactory.createLineBorder(Color.black);

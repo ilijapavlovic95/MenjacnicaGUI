@@ -153,13 +153,18 @@ public class DodajKursGUI extends JFrame {
 			btnDodaj = new JButton("Dodaj");
 			btnDodaj.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					try {
+						GUIKontroler.unesiNovuValutu(textFieldSifra.getText(),textFieldNaziv.getText(),
+								textFieldProdajni.getText(), textFieldKupovni.getText(), textFieldSrednji.getText(),
+								textFieldSkraceniNaziv.getText());
+						dispose();
+					} catch (NumberFormatException e1) {
+						GUIKontroler.prikaziDijalogNumberException();
+						return;
+					}
 					MenjacnicaGUI.ispisiNovuKnjigu(textFieldSifra.getText(),textFieldNaziv.getText(),
 							textFieldProdajni.getText(), textFieldKupovni.getText(), textFieldSrednji.getText(),
 							textFieldSkraceniNaziv.getText());
-					GUIKontroler.unesiNovuValutu(textFieldSifra.getText(),textFieldNaziv.getText(),
-							textFieldProdajni.getText(), textFieldKupovni.getText(), textFieldSrednji.getText(),
-							textFieldSkraceniNaziv.getText());
-					dispose();
 				}
 			});
 			btnDodaj.setFont(new Font("Tahoma", Font.BOLD, 13));

@@ -84,4 +84,8 @@ public class GUIKontroler {
 		noviProzor.setLocationRelativeTo(null);
 	}
 
+	public static void prikaziDijalogNumberException() {
+		JOptionPane.showMessageDialog(glavniProzor, "Vrednosti kurseva moraju biti unete u vidu broja.\nIzmenite unos.","Greska",JOptionPane.ERROR_MESSAGE);
+	}
+
 }
